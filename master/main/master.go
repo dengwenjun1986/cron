@@ -3,7 +3,7 @@
  import (
 	 "flag"
 	 "fmt"
-	 "github.com/dengwenjun1986/crontab/master"
+	 "github.com/dengwenjun1986/cron/master"
 	 "runtime"
  )
 

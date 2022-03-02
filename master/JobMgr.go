@@ -1,7 +1,7 @@
 package master
 
 import (
-	"github.com/dengwenjun1986/crontab/common"
+	"github.com/dengwenjun1986/cron/common"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"time"
 	)

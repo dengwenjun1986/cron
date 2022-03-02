@@ -2,7 +2,7 @@ package master
 
 import (
 	"encoding/json"
-	"github.com/dengwenjun1986/crontab/common"
+	"github.com/dengwenjun1986/cron/common"
 	"net"
 	"net/http"
 	"strconv"
