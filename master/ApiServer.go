@@ -25,6 +25,7 @@ func handleJobSave(resp http.ResponseWriter, req *http.Request) {
 		err error
 		postJob string
 		job common.Job
+		oldJob *common.Job
 	)
 	// 解析POST表单
 	if err = req.ParseForm();err != nil{
@@ -37,7 +38,17 @@ func handleJobSave(resp http.ResponseWriter, req *http.Request) {
 		goto ERR
 	}
 
+	// 4.保存到etcd
+	if oldJob,err = G_jobMgr.SaveJob(&job);err != nil {
+		goto ERR
+	}
+
+	// 5.返回正常应答({"errno":"0","msg":"","data":{...}})
+	return
+
 	ERR:
+		//6.返回异常应答
+
 
 // 任务保存到ETCD中
 }
