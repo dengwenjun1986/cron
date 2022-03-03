@@ -26,6 +26,7 @@ func handleJobSave(resp http.ResponseWriter, req *http.Request) {
 		postJob string
 		job common.Job
 		oldJob *common.Job
+		bytes []byte
 	)
 	// 解析POST表单
 	if err = req.ParseForm();err != nil{
@@ -44,10 +45,16 @@ func handleJobSave(resp http.ResponseWriter, req *http.Request) {
 	}
 
 	// 5.返回正常应答({"errno":"0","msg":"","data":{...}})
+	if bytes,err = common.BuildResp(0,"success",oldJob);err == nil {
+		_, _ = resp.Write(bytes)
+	}
 	return
 
 	ERR:
 		//6.返回异常应答
+		if bytes,err = common.BuildResp(-1,err.Error(),nil);err != nil {
+			_, _ = resp.Write(bytes)
+		}
 
 
 // 任务保存到ETCD中
