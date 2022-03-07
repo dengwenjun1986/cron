@@ -2,6 +2,7 @@ package master
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/dengwenjun1986/cron/common"
 	"net"
 	"net/http"
@@ -86,7 +87,7 @@ func InitApiServer() (err error) {
 
 	// 赋值单例
 	G_apiServer = &ApiServer{httpServer: httpServer}
-
+	fmt.Println(G_apiServer)
 	// 启动了服务端
 	go httpServer.Serve(listener)
 
