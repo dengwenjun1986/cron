@@ -5,6 +5,7 @@
 	 "fmt"
 	 "github.com/dengwenjun1986/cron/master"
 	 "runtime"
+	 "time"
  )
 
 func initEnv()  {
@@ -53,6 +54,9 @@ func main(){
 	}
 
 	// 正常退出
+	for {
+		time.Sleep(1 * time.Second)
+	}
 	return
 ERR:
 	fmt.Println(err)

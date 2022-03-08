@@ -3,6 +3,7 @@ package master
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/dengwenjun1986/cron/common"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"time"
@@ -65,18 +66,19 @@ func (jobMgr *JobMgr)SaveJob(job *common.Job)(oldjob *common.Job,err error) {
 	)
 
 	// etcd保存key
-	jobKey = "/cron/jobs" + job.Name
+	jobKey = "/cron/jobs/" + job.Name
 
 	// 任务信息json
 	if jobValue,err = json.Marshal(job);err != nil {
 		return
 	}
+	fmt.Println(jobKey,string(jobValue))
 
 	// 保存到etcd
 	if putResp,err = jobMgr.kv.Put(context.TODO(),jobKey,string(jobValue),clientv3.WithPrevKV());err != nil {
 		return
 	}
-
+	fmt.Println(putResp.Header.Revision)
 	// 如果是更新，那么返回旧值
 	if putResp.PrevKv != nil {
 		// 对旧值做反序列化
@@ -86,8 +88,5 @@ func (jobMgr *JobMgr)SaveJob(job *common.Job)(oldjob *common.Job,err error) {
 		}
 		oldjob = &oldJobObj
 	}
-
-
-
 	return
 }
