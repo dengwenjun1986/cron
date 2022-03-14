@@ -57,7 +57,7 @@ func main(){
 	for {
 		time.Sleep(1 * time.Second)
 	}
-	return
+	//return
 ERR:
 	fmt.Println(err)
 }
