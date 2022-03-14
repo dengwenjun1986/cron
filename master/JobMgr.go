@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/dengwenjun1986/cron/common"
+	"go.etcd.io/etcd/api/v3/mvccpb"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"time"
 	)
@@ -66,7 +67,7 @@ func (jobMgr *JobMgr)SaveJob(job *common.Job)(oldjob *common.Job,err error) {
 	)
 
 	// etcd保存key
-	jobKey = "/cron/jobs/" + job.Name
+	jobKey = common.JOB_SAVE_DIR + job.Name
 
 	// 任务信息json
 	if jobValue,err = json.Marshal(job);err != nil {
@@ -100,7 +101,7 @@ func(jobMgr *JobMgr)DeleteJob(name string)(oldJob *common.Job,err error)  {
 	)
 
 	// etcd中保存任务的key
-	jobKey = "/cron/jobs/" + name
+	jobKey = common.JOB_SAVE_DIR + name
 
 	// 从etcd中删除他
 	if delResp,err = jobMgr.kv.Delete(context.TODO(),jobKey,clientv3.WithPrevKV()); err != nil {
@@ -122,3 +123,49 @@ func(jobMgr *JobMgr)DeleteJob(name string)(oldJob *common.Job,err error)  {
 
 	return
 }
+
+// 查询任务
+func (jobMgr *JobMgr)ListJobs()(jobList []*common.Job,err error){
+	var (
+		dirKey string
+		getResp *clientv3.GetResponse
+		kvPair *mvccpb.KeyValue
+		job *common.Job
+	)
+
+	// 任务保存的目录
+	dirKey = common.JOB_SAVE_DIR
+
+	// 获取任务保存的信息
+	if getResp,err = jobMgr.kv.Get(context.TODO(),dirKey,clientv3.WithPrefix());err != nil {
+
+		return
+	}
+
+	// 初始化数组空间
+	jobList = make([]*common.Job,0)
+	// len(jobList) == 0
+
+
+
+	// 遍历完所有任务，反序列化
+	for _, kvPair = range getResp.Kvs {
+		job = &common.Job{}
+		if err = json.Unmarshal(kvPair.Value,&job);err != nil {
+			err = nil
+			continue
+		}
+		jobList = append(jobList,job)
+
+	}
+
+	return
+}
+
+
+
+
+
+
+
+
