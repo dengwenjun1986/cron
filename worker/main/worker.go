@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/dengwenjun1986/cron/master"
 	"github.com/dengwenjun1986/cron/worker"
 	"runtime"
 	"time"
