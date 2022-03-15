@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/dengwenjun1986/cron/master"
+	"github.com/dengwenjun1986/cron/worker"
 	"runtime"
 	"time"
 )
@@ -37,21 +38,11 @@ func main(){
 
 
 	// 加载配置
-	if err = master.InitConfig(configFile);err != nil {
-		goto ERR
-	}
-
-	// 任务管理器
-	if err = master.InitJobMgr();err != nil {
+	if err = worker.InitConfig(configFile);err != nil {
 		goto ERR
 	}
 
 
-
-	// 启动Api HTTP服务
-	if err = master.InitApiServer();err != nil {
-		goto ERR
-	}
 
 	// 正常退出
 	for {
