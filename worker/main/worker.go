@@ -42,6 +42,11 @@ func main(){
 	}
 
 
+	// 初始化任务管理器
+	if err = worker.InitConfig();err != nil {
+		goto ERR
+	}
+
 
 	// 正常退出
 	for {

@@ -1,6 +1,9 @@
 package worker
 
 import (
+	"context"
+	"github.com/dengwenjun1986/cron/common"
+	"go.etcd.io/etcd/api/v3/mvccpb"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"time"
 	)
@@ -15,7 +18,25 @@ type JobMgr struct {
 var (
 	// 单例
 	G_jobMgr *JobMgr
+	getResp *clientv3.GetResponse
+	kvpair *mvccpb.KeyValue
 )
+
+// 监听任务变化
+func(jobMgr *JobMgr)watchJobs()(err error){
+	// 1.get 一下/cron/jobs/目录下的所有任务，并且获知当前集群的revision
+	if getResp,err = jobMgr.kv.Get(context.TODO(),common.JOB_SAVE_DIR,clientv3.WithPrevKV()); err != nil {
+		return
+	}
+	for _,kvpair = range getResp.Kvs {
+		// 反序列化json得到job
+
+	}
+
+	return
+}
+
+
 
 // 初始化管理器
 func InitJobMgr()(err error){
