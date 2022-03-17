@@ -30,7 +30,7 @@ func(jobMgr *JobMgr)watchJobs()(err error){
 	}
 	for _,kvpair = range getResp.Kvs {
 		// 反序列化json得到job
-
+		common.
 	}
 
 	return
