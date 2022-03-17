@@ -22,8 +22,8 @@ github.com/coreos/go-systemd/v22 v22.3.2/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSV
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/dengwenjun1986/cron/common v0.0.0-20220315150644-0b9ea77d60fe h1:63u6IJ0L3cmx9IX+rETN05aoGDatiJU5LwN/UvwUruc=
-github.com/dengwenjun1986/cron/common v0.0.0-20220315150644-0b9ea77d60fe/go.mod h1:bQ66dRyV3ZEkZFQ5IDNcxkiPtSy0B4efz/jOo913x1M=
+github.com/dengwenjun1986/cron/common v0.0.0-20220317121837-ff375d4abc11 h1:wrKXYHHoTVZzMF8LgOKiOkoJRHEEqRE9WtVbxKL1MPI=
+github.com/dengwenjun1986/cron/common v0.0.0-20220317121837-ff375d4abc11/go.mod h1:bQ66dRyV3ZEkZFQ5IDNcxkiPtSy0B4efz/jOo913x1M=
 github.com/dustin/go-humanize v1.0.0/go.mod h1:HtrtbFcZ19U5GC7JDqmcUSB87Iq5E25KnS6fMYU6eOk=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=

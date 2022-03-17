@@ -1,6 +1,9 @@
 package common
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"strings"
+)
 
 // 任务
 type Job struct {
@@ -44,4 +47,10 @@ func UnpackJob(value []byte)(ret *Job,err error){
 	}
 	ret = job
 	return
+}
+
+// 从etcd的key中提取任务名
+func ExtratJobName(JobKey string)(string){
+	// /cron/jobs/job10 删掉 /cron/jobs
+	return strings.TrimPrefix(JobKey,JOB_SAVE_DIR)
 }
