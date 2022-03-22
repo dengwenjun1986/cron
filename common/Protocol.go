@@ -61,7 +61,7 @@ func ExtratJobName(JobKey string) string {
 }
 
 // 任务变化事件 1）更新任务  2）删除任务
-func BuildEvent(eventType int, job *Job) (jobEvent *JobEvent) {
+func BuildJobEvent(eventType int, job *Job) (jobEvent *JobEvent) {
 
 	return &JobEvent{
 		EventType: eventType,

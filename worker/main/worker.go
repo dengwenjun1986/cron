@@ -43,7 +43,7 @@ func main(){
 
 
 	// 初始化任务管理器
-	if err = worker.InitConfig();err != nil {
+	if err = worker.InitConfig(configFile);err != nil {
 		goto ERR
 	}
 

@@ -2,6 +2,7 @@ package worker
 
 import (
 	"context"
+	"fmt"
 	"github.com/dengwenjun1986/cron/common"
 	"go.etcd.io/etcd/api/v3/mvccpb"
 	clientv3 "go.etcd.io/etcd/client/v3"
@@ -41,7 +42,9 @@ func (jobMgr *JobMgr) watchJobs() (err error) {
 	for _, kvpair = range getResp.Kvs {
 		// 反序列化json得到job
 		if job, err = common.UnpackJob(kvpair.Value); err != nil {
+			jobEvent = common.BuildJobEvent(common.Job_Event_SAVE,job)
 			// TODO: 是把这个job同步给scheduler（调度协程）
+			fmt.Println(*jobEvent)  // 获取全量任务
 		}
 	}
 
@@ -50,7 +53,7 @@ func (jobMgr *JobMgr) watchJobs() (err error) {
 		// 从GET时刻的后续版本监听变化
 		watchStartRevision = getResp.Header.Revision + 1
 		// 监听/cron/jobs/目录的后续变化
-		watchChan = jobMgr.watcher.Watch(context.TODO(), common.JOB_SAVE_DIR, clientv3.WithRev(watchStartRevision))
+		watchChan = jobMgr.watcher.Watch(context.TODO(), common.JOB_SAVE_DIR, clientv3.WithRev(watchStartRevision),clientv3.WithPrefix())
 
 		// 处理监听事件
 		for watchResp = range watchChan {
@@ -62,6 +65,7 @@ func (jobMgr *JobMgr) watchJobs() (err error) {
 					}
 					//构造一个更新Event事件
 					jobEvent = common.BuildJobEvent(common.JOB_EVENT_SAVE, job)
+					fmt.Println(*jobEvent)
 
 				case mvccpb.DELETE: //任务被删除了
 					// Delete /cron/jobs/job10
@@ -71,6 +75,10 @@ func (jobMgr *JobMgr) watchJobs() (err error) {
 					//构造一个删除Event事件
 					jobEvent = common.BuildJobEvent(common.JOB_EVENT_DELETE, job)
 				}
+
+				// TODO：推给scheduler
+				// G_scheduler.PushJobEvent(jobEvent)
+				fmt.Println(*jobEvent)
 			}
 		}
 	}()
@@ -111,6 +119,9 @@ func InitJobMgr() (err error) {
 		lease:   lease,
 		watcher: watcher,
 	}
+
+	// 启动任务监听
+	_ = G_jobMgr.watchJobs()
 
 	return
 }
